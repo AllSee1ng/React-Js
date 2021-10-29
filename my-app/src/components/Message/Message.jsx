@@ -2,5 +2,10 @@ import React from "react";
 import "./Message.sass";
 
 export const Message = (props) => {
-    return <h3 className="message">{props.message}</h3>;
+    const messageList = props.message;
+    return messageList.map((message) => (
+        <p className="message">
+            <span> {message.author}</span>: {message.text}
+        </p>
+    ));
 };
