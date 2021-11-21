@@ -4,20 +4,25 @@ import { Message } from "../Message/Message";
 import { ChatList } from "../ChatList/ChatList";
 import { Form } from "../Form/Form";
 import { Navigate, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { addChat, deleteChat } from "../../store/chats/actions";
 
 const initialMessages = {
-    chat1: [],
-    chat2: [],
-    chat3: [],
+    // chat1: [],
+    // chat2: [],
+    // chat3: [],
 };
 
 function Chat() {
+    const dispatch = useDispatch();
     const { chatId } = useParams();
     const [messageList, setMessageList] = useState(initialMessages);
-
-    // const updateMessageList = (message) => {
-    //     setMessageList([...messageList, message]);
-    // };
+    const chatList = useSelector((state) => state.chats);
+    // const [chatList, setChatList] = useState([
+    //     { name: "Chat 1", id: "chat1" },
+    //     { name: "Chat 2", id: "chat2" },
+    //     { name: "Chat 3", id: "chat3" },
+    // ]);
 
     const updateMessageList = useCallback(
         (newMessage) => {
@@ -28,6 +33,35 @@ function Chat() {
         },
         [chatId]
     );
+
+    const handleAddChat = useCallback(
+        (name) => {
+            const newId = `chat${Date.now()}`;
+
+            // setChatList((prevChatList) => [...prevChatList, { name, id: newId }]);
+            dispatch(addChat({ name, id: newId }));
+            setMessageList((prevMessages) => ({
+                ...prevMessages,
+                [newId]: [],
+            }));
+        },
+        [dispatch]
+    );
+
+    const handleDeleteChat = useCallback((idToDelete) => {
+        const newId = `chat${Date.now()}`;
+
+        // setChatList((prevChatList) =>
+        //     prevChatList.filter(({ id }) => id !== idToDelete)
+        // );
+        dispatch(deleteChat(idToDelete));
+        setMessageList((prevMessages) => {
+            const newMessages = { ...prevMessages };
+            delete newMessages[idToDelete];
+
+            return newMessages;
+        });
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -51,7 +85,14 @@ function Chat() {
 
     return (
         <div className="chat">
-            <ChatList />
+            <>
+                <ChatList
+                    chatList={chatList}
+                    onAddChat={handleAddChat}
+                    onDeleteChat={handleDeleteChat}
+                />
+            </>
+
             <div className="message-area_wrapper">
                 <div className="message-area">
                     <Message
