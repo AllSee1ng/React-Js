@@ -1,1 +1,3 @@
-export const selectChats = (state) => state.chats;
+export const getChatList = (state) => {
+    return state.chats;
+};

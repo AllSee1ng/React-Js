@@ -12,6 +12,7 @@ import {
     addMessages,
     deleteMessages,
 } from "../../store/messages/actions";
+import { getChatList } from "../../store/chats/selectors";
 
 const initialMessages = {};
 
@@ -19,7 +20,7 @@ function Chat() {
     const dispatch = useDispatch();
     const { chatId } = useParams();
     // const [messageList, setMessageList] = useState(initialMessages);
-    const chatList = useSelector((state) => state.chats);
+    const chatList = useSelector(getChatList);
     const messageList = useSelector(getMessageList);
     // const [chatList, setChatList] = useState([
     //     { name: "Chat 1", id: "chat1" },
