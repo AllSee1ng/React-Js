@@ -13,18 +13,14 @@ import {
     deleteMessages,
 } from "../../store/messages/actions";
 
-const initialMessages = {
-    chat1: [],
-    chat2: [],
-    chat3: [],
-};
+const initialMessages = {};
 
 function Chat() {
     const dispatch = useDispatch();
     const { chatId } = useParams();
-    const [messageList, setMessageList] = useState(initialMessages);
+    // const [messageList, setMessageList] = useState(initialMessages);
     const chatList = useSelector((state) => state.chats);
-    const messagesList = useSelector(getMessageList);
+    const messageList = useSelector(getMessageList);
     // const [chatList, setChatList] = useState([
     //     { name: "Chat 1", id: "chat1" },
     //     { name: "Chat 2", id: "chat2" },
@@ -56,12 +52,13 @@ function Chat() {
         //     prevChatList.filter(({ id }) => id !== idToDelete)
         // );
         dispatch(deleteChat(idToDelete));
-        setMessageList((prevMessages) => {
-            const newMessages = { ...prevMessages };
-            delete newMessages[idToDelete];
+        // setMessageList((prevMessages) => {
+        //     const newMessages = { ...prevMessages };
+        //     delete newMessages[idToDelete];
 
-            return newMessages;
-        });
+        //     return newMessages;
+        // });
+        dispatch(deleteMessages(idToDelete));
     }, []);
 
     useEffect(() => {

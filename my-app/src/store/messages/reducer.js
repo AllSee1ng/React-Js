@@ -1,6 +1,6 @@
 import { ADD_MESSAGES, DELETE_MESSAGES, UPDATE_MESSAGES } from "./actions";
 
-const initialMessageList = {};
+const initialMessageList = { chat1: [], chat2: [], chat3: [] };
 
 export const messagesReducer = (
     state = initialMessageList,
