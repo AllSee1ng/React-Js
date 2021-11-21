@@ -14,19 +14,11 @@ import {
 } from "../../store/messages/actions";
 import { getChatList } from "../../store/chats/selectors";
 
-const initialMessages = {};
-
 function Chat() {
     const dispatch = useDispatch();
     const { chatId } = useParams();
-    // const [messageList, setMessageList] = useState(initialMessages);
     const chatList = useSelector(getChatList);
     const messageList = useSelector(getMessageList);
-    // const [chatList, setChatList] = useState([
-    //     { name: "Chat 1", id: "chat1" },
-    //     { name: "Chat 2", id: "chat2" },
-    //     { name: "Chat 3", id: "chat3" },
-    // ]);
 
     const updateMessageList = useCallback(
         (newMessage) => {
@@ -39,7 +31,6 @@ function Chat() {
         (name) => {
             const newId = `chat${Date.now()}`;
 
-            // setChatList((prevChatList) => [...prevChatList, { name, id: newId }]);
             dispatch(addChat({ name, id: newId }));
             dispatch(addMessages(newId));
         },
@@ -49,16 +40,7 @@ function Chat() {
     const handleDeleteChat = useCallback((idToDelete) => {
         const newId = `chat${Date.now()}`;
 
-        // setChatList((prevChatList) =>
-        //     prevChatList.filter(({ id }) => id !== idToDelete)
-        // );
         dispatch(deleteChat(idToDelete));
-        // setMessageList((prevMessages) => {
-        //     const newMessages = { ...prevMessages };
-        //     delete newMessages[idToDelete];
-
-        //     return newMessages;
-        // });
         dispatch(deleteMessages(idToDelete));
     }, []);
 
