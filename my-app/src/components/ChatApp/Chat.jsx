@@ -6,11 +6,17 @@ import { Form } from "../Form/Form";
 import { Navigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { addChat, deleteChat } from "../../store/chats/actions";
+import { getMessageList } from "../../store/messages/selectors";
+import {
+    updateMessages,
+    addMessages,
+    deleteMessages,
+} from "../../store/messages/actions";
 
 const initialMessages = {
-    // chat1: [],
-    // chat2: [],
-    // chat3: [],
+    chat1: [],
+    chat2: [],
+    chat3: [],
 };
 
 function Chat() {
@@ -18,6 +24,7 @@ function Chat() {
     const { chatId } = useParams();
     const [messageList, setMessageList] = useState(initialMessages);
     const chatList = useSelector((state) => state.chats);
+    const messagesList = useSelector(getMessageList);
     // const [chatList, setChatList] = useState([
     //     { name: "Chat 1", id: "chat1" },
     //     { name: "Chat 2", id: "chat2" },
@@ -26,10 +33,7 @@ function Chat() {
 
     const updateMessageList = useCallback(
         (newMessage) => {
-            setMessageList((prevMessages) => ({
-                ...prevMessages,
-                [chatId]: [...(prevMessages[chatId] || []), newMessage],
-            }));
+            dispatch(updateMessages(chatId, newMessage));
         },
         [chatId]
     );
@@ -40,10 +44,7 @@ function Chat() {
 
             // setChatList((prevChatList) => [...prevChatList, { name, id: newId }]);
             dispatch(addChat({ name, id: newId }));
-            setMessageList((prevMessages) => ({
-                ...prevMessages,
-                [newId]: [],
-            }));
+            dispatch(addMessages(newId));
         },
         [dispatch]
     );
@@ -93,15 +94,17 @@ function Chat() {
                 />
             </>
 
-            <div className="message-area_wrapper">
-                <div className="message-area">
-                    <Message
-                        className="message-txt"
-                        message={messageList[chatId]}
-                    />
+            {chatId && (
+                <div className="message-area_wrapper">
+                    <div className="message-area">
+                        <Message
+                            className="message-txt"
+                            message={messageList[chatId]}
+                        />
+                    </div>
+                    <Form updateMessageList={updateMessageList} />
                 </div>
-                <Form updateMessageList={updateMessageList} />
-            </div>
+            )}
         </div>
     );
 }

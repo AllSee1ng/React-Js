@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 // const chatList = [
@@ -8,8 +9,8 @@ import { Link } from "react-router-dom";
 
 // ];
 
-export const ChatList = ({ chatList, onAddChat, onDeleteChat }) => {
-    console.log(chatList);
+export const ChatList = ({ onAddChat, onDeleteChat }) => {
+    const chatList = useSelector((state) => state.chats);
 
     const [value, setValue] = useState("");
 

@@ -1,6 +1,10 @@
 import { ADD_CHAT, DELETE_CHAT } from "./actions";
 
-const initialChats = [];
+const initialChats = [
+    { name: "Chat 1", id: "chat1" },
+    { name: "Chat 2", id: "chat2" },
+    { name: "Chat 3", id: "chat3" },
+];
 
 export const chatsReducer = (state = initialChats, { type, payload }) => {
     switch (type) {
