@@ -20,6 +20,8 @@ function Chat() {
     const chatList = useSelector(getChatList);
     const messageList = useSelector(getMessageList);
 
+    // ЗАГЛУШКА К 7 ДЗ
+
     const updateMessageList = useCallback(
         (newMessage) => {
             dispatch(updateMessages(chatId, newMessage));
