@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Message } from "../Message/Message";
 import { ChatList } from "../ChatList/ChatList";
 import { Form } from "../Form/Form";
-import { useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 
 const initialMessages = {
     chat1: [],
@@ -44,6 +44,10 @@ function Chat() {
         }, 1000);
         return () => clearTimeout(timer);
     }, [messageList[chatId]]);
+
+    if (chatId && !(chatId in messageList)) {
+        return <Navigate replace to="/chat" />;
+    }
 
     return (
         <div className="chat">
