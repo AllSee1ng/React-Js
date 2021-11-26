@@ -10,7 +10,7 @@ export const Router = () => {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="chat">
-                <Route index element={<ChatList />} />
+                <Route index element={<Chat />} />
                 <Route path=":chatId" element={<Chat />} />
             </Route>
             <Route path="profile" element={<Profile />} />
