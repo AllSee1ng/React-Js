@@ -14,6 +14,8 @@ import {
 } from "../../store/messages/actions";
 import { getChatList } from "../../store/chats/selectors";
 
+import { updateMessagesWithReply } from "../../store/messages/actions";
+
 function Chat() {
     const dispatch = useDispatch();
     const { chatId } = useParams();
@@ -24,7 +26,7 @@ function Chat() {
 
     const updateMessageList = useCallback(
         (newMessage) => {
-            dispatch(updateMessages(chatId, newMessage));
+            dispatch(updateMessagesWithReply(chatId, newMessage));
         },
         [chatId]
     );
@@ -46,21 +48,21 @@ function Chat() {
         dispatch(deleteMessages(idToDelete));
     }, []);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (
-                messageList[chatId]?.length &&
-                messageList[chatId][messageList[chatId]?.length - 1].author !==
-                    "Mr.Robot"
-            ) {
-                updateMessageList({
-                    author: "Mr.Robot",
-                    text: "F.society",
-                });
-            }
-        }, 1000);
-        return () => clearTimeout(timer);
-    }, [messageList[chatId]]);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         if (
+    //             messageList[chatId]?.length &&
+    //             messageList[chatId][messageList[chatId]?.length - 1].author !==
+    //                 "Mr.Robot"
+    //         ) {
+    //             updateMessageList({
+    //                 author: "Mr.Robot",
+    //                 text: "F.society",
+    //             });
+    //         }
+    //     }, 1000);
+    //     return () => clearTimeout(timer);
+    // }, [messageList[chatId]]);
 
     if (chatId && !(chatId in messageList)) {
         return <Navigate replace to="/chat" />;
