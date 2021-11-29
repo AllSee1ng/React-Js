@@ -20,6 +20,9 @@ function App() {
                             <li>
                                 <Link to="/profile">Profile</Link>
                             </li>
+                            <li>
+                                <Link to="/articles">Articles</Link>
+                            </li>
                         </ul>
                     </header>
                     <main className="App-main">
