@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../services/firebase";
 import { signOut, toggleCheckbox } from "../../store/profile/actions";
 
 export const Profile = () => {
@@ -11,8 +12,12 @@ export const Profile = () => {
         dispatch(toggleCheckbox);
     };
 
-    const handleSignOut = () => {
-        dispatch(signOut());
+    const handleLogOutClick = async () => {
+        try {
+            await logOut();
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -24,7 +29,7 @@ export const Profile = () => {
                 onChange={handleChange}
             />
             <span>{name}</span>
-            <button onClick={handleSignOut}>SIGN OUT</button>
+            <button onClick={handleLogOutClick}>SIGN OUT</button>
         </div>
     );
 };
