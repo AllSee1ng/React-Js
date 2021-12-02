@@ -1,5 +1,5 @@
 import "./Chat.sass";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import { Message } from "../Message/Message";
 import { ChatList } from "../ChatList/ChatList";
 import { Form } from "../Form/Form";
@@ -7,11 +7,7 @@ import { Navigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { addChat, deleteChat } from "../../store/chats/actions";
 import { getMessageList } from "../../store/messages/selectors";
-import {
-    updateMessages,
-    addMessages,
-    deleteMessages,
-} from "../../store/messages/actions";
+import { addMessages, deleteMessages } from "../../store/messages/actions";
 import { getChatList } from "../../store/chats/selectors";
 
 import { updateMessagesWithReply } from "../../store/messages/actions";
@@ -21,8 +17,6 @@ function Chat() {
     const { chatId } = useParams();
     const chatList = useSelector(getChatList);
     const messageList = useSelector(getMessageList);
-
-    // ЗАГЛУШКА К 7 ДЗ
 
     const updateMessageList = useCallback(
         (newMessage) => {
@@ -47,22 +41,6 @@ function Chat() {
         dispatch(deleteChat(idToDelete));
         dispatch(deleteMessages(idToDelete));
     }, []);
-
-    // useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //         if (
-    //             messageList[chatId]?.length &&
-    //             messageList[chatId][messageList[chatId]?.length - 1].author !==
-    //                 "Mr.Robot"
-    //         ) {
-    //             updateMessageList({
-    //                 author: "Mr.Robot",
-    //                 text: "F.society",
-    //             });
-    //         }
-    //     }, 1000);
-    //     return () => clearTimeout(timer);
-    // }, [messageList[chatId]]);
 
     if (chatId && !(chatId in messageList)) {
         return <Navigate replace to="/chat" />;
