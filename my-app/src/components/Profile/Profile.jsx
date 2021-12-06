@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleCheckbox } from "../../store/profile/actions";
+import { logOut } from "../../services/firebase";
+import { signOut, toggleCheckbox } from "../../store/profile/actions";
 
 export const Profile = () => {
     const checkboxValue = useSelector((state) => state.checkbox);
@@ -9,6 +10,14 @@ export const Profile = () => {
 
     const handleChange = () => {
         dispatch(toggleCheckbox);
+    };
+
+    const handleLogOutClick = async () => {
+        try {
+            await logOut();
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -20,6 +29,7 @@ export const Profile = () => {
                 onChange={handleChange}
             />
             <span>{name}</span>
+            <button onClick={handleLogOutClick}>SIGN OUT</button>
         </div>
     );
 };
